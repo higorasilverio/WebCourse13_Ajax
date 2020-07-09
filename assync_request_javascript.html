@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+
+		<title>Easy Ajax with Pure JavaScript</title>
+		
+		<!-- bootstrap - link cdn -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+		<script language="javascript">
+			var httpRequest;
+			function madeRequest(url, destination){
+				document.getElementById(destination).innerHTML = '<center><img src="loader.gif"></center>';
+				if(window.XMLHttpRequest){
+					httpRequest = new XMLHttpRequest();
+				}
+				else if(window.ActiveXObject){
+					try {
+						httpRequest = new ActiveXObject("Msxm12.XMLTTP");
+					} catch (e){
+						try {
+							httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+						}catch (e){
+							try {
+								httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+							}catch (e){
+								alert('It is not possible to instatiate the XMLHttpRequest for this web browser/versio');
+							}
+						}
+					}
+				}
+
+				if(!httpRequest){
+					alert('Error trying to create an object instance of XMLHttpRequest');
+					return false;
+				}
+				/*
+				alert(url);
+				alert(destination);
+				*/
+				httpRequest.onreadystatechange = situationRequest;
+				httpRequest.open('GET', url);
+				httpRequest.send();
+			}
+
+			function situationRequest(){
+				if (httpRequest.readyState == 4) {
+					if (httpRequest.status == 200){
+						document.getElementById('div_content').innerHTML = httpRequest.responseText;
+					}
+				}
+			}
+
+		</script>
+	
+	</head>
+
+	<body>
+
+		<!-- Static navbar -->
+	    <nav class="navbar navbar-default navbar-static-top">
+	      <div class="container">
+	        <div class="navbar-header">
+	        	<h3>Synchronous and Asynchronous Requests</h3>
+	        </div>
+	      </div>
+	    </nav>
+
+
+	    <div class="container">
+
+	    	<div class="row">
+	    		<div class="col-md-4 center"></div>
+	    		<div class="col-md-4 center">
+	    			<a href="#" class="btn btn-primary" onclick="madeRequest('page_1_content.html', 'div_content')">Page 1</a>
+	    			<a href="#" class="btn btn-primary" onclick="madeRequest('page_2_content.html', 'div_content')">Page 2</a>
+	    			<a href="#" class="btn btn-primary" onclick="madeRequest('page_3_content.html', 'div_content')">Page 3</a>
+	    		</div>
+	    		<div class="col-md-4 center"></div>
+	    	</div>
+	    	
+	    	<br />
+	    	<div class="row">
+		    	<div class="col-md-1"></div>
+
+		    	<div class="col-md-10" id="div_content">
+		    			
+		    	</div>
+		    		
+				<div class="col-md-1"></div>
+			</div>
+
+		</div>	
+	</body>
+</html>
